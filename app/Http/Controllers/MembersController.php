@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Members;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Mime\Email;
 
 class MembersController extends Controller
@@ -29,7 +30,7 @@ class MembersController extends Controller
     }
 
     public function registerMember(){
-        return view('members.registerMember');
+        return view('members.registerMembers');
     }
 
     public function addMember(){
@@ -61,11 +62,11 @@ class MembersController extends Controller
             'home_address'=>request()->home_address,
         ]);
 
-        return redirect()->route('viewUsers')->with('success','Member Registered  successfully');
+        return redirect()->route('members')->with('success','Member Registered  successfully');
     }
 
     public function editMember($member){
-        $member = Member::findOrFail($member);
+        $member = Members::findOrFail($member);
 
         return view('members.editMember',[
             'member'=>$member
@@ -97,7 +98,7 @@ class MembersController extends Controller
 
         Members::where('id',$member)->update($updatedMember);
 
-        return redirect()->route('viewUsers')->with('success','Member updated  successfully');
+        return redirect()->route('members')->with('success','Member updated  successfully');
 
     }
 
@@ -106,6 +107,6 @@ class MembersController extends Controller
 
         $member->delete();
 
-        return redirect()->route('viewUsers')->with('success','Member updated  successfully');
+        return redirect()->route('members')->with('success','Member updated  successfully');
     }
 }

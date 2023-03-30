@@ -1,13 +1,13 @@
 @extends('layouts.userLayout')
 @section('content')
-<form method="POST"  enctype="multipart/form-data" id="reg-form">
+<form method="POST" action="{{ route('addMember') }}" enctype="multipart/form-data" id="reg-form">
 
 @csrf
     <div>
         <h2>Register New Member</h2>
         <div class="row mb-3">
             <div class="col-md-6">
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="name">
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Name">
 
                 @error('name')
                     <span class="invalid-feedback" role="alert">
@@ -29,9 +29,9 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
-            <input type="file" name="profile_image" id="">
+            <input type="file" name="profile_picture" id="">
 
-                @error('profile_image')
+                @error('profile_picture')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -40,7 +40,7 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
-                <input id="home_address" type="text" class="form-control @error('home_address') is-invalid @enderror" name="home_address" value="{{ old('home_address') }}" required autocomplete="home_address" autofocus placeholder="home_address">
+                <input id="home_address" type="text" class="form-control @error('home_address') is-invalid @enderror" name="home_address" value="{{ old('home_address') }}" required autocomplete="home_address" autofocus placeholder="Home Address">
 
                 @error('home_address')
                     <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
-                <input id="spouse_name" type="text" class="form-control @error('spouse_name') is-invalid @enderror" spouse_name="spouse_name" value="{{ old('spouse_name') }}" required autocomplete="spouse_name" placeholder="spouse_name">
+                <input id="spouse_name" type="text" class="form-control @error('spouse_name') is-invalid @enderror" spouse_name="spouse_name" value="{{ old('spouse_name') }}" required autocomplete="spouse_name" placeholder="Spouse Name">
 
                 @error('spouse_name')
                     <span class="invalid-feedback" role="alert">

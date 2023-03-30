@@ -113,6 +113,33 @@ class ChildrenController extends Controller
             'DOB' => 'required',
         ]);
 
+        if(request()->father_name){
+            $father_name = request()->father_name;
+            $father = Members::where('name', $father_name)->firstOrFail();
+
+            if($father){
+                $father_id = $father->id;
+            }
+        }
+
+        if(request()->mother_name){
+            $mother_name = request()->mother_name;
+            $mother = Members::where('name', $mother_name)->firstOrFail();
+
+            if($mother){
+                $mother_id = $mother->id;
+            }
+        }
+
+        if(request()->guardian_name){
+            $guardian_name = request()->guardian_name;
+            $guardian = Members::where('name', $guardian_name)->firstOrFail();
+
+            if($guardian){
+                $guardian_id = $guardian->id;
+            }
+        }
+
         if(request()->hasFile('profile_picture')) {
             $file = request()->file('profile_picture');
             $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -122,15 +149,15 @@ class ChildrenController extends Controller
 
         $updatedChild['name'] = request()->name;
         $updatedChild['email'] = request()->email;
-        $updatedChild['father_id'] = request()->father_id;
-        $updatedChild['mother_id'] = request()->mother_id;
-        $updatedChild['guardian_id'] = request()->guardian_id;
+        $updatedChild['father_id'] = $father_id;
+        $updatedChild['mother_id'] = $mother_id;
+        $updatedChild['guardian_id'] = $guardian_id;
         $updatedChild['phone_number'] = request()->phone_number;
         $updatedChild['DOB'] = request()->DOB;
 
         Children::where('id',$child)->update($updatedChild);
 
-        return redirect()->route('viewUsers')->with('success','Child Updated successfully');
+        return redirect()->route('children')->with('success','Child Updated successfully');
     }
 
     public function deleteChild($child){
@@ -138,7 +165,7 @@ class ChildrenController extends Controller
 
         $child->delete();
 
-        return redirect()->route('viewUsers')->with('success','Child deleted successfully');
+        return redirect()->route('children')->with('success','Child deleted successfully');
     }
 }
 

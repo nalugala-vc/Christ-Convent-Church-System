@@ -543,12 +543,15 @@ nav .logo_name{
 }
 #content main .table-data .order table th {
 	padding-bottom: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
 	font-size: 13px;
 	text-align: left;
 	border-bottom: 1px solid var(--grey);
 }
 #content main .table-data .order table td {
-	padding: 16px 0;
+	padding: 16px 10px;
+    font-size: 13px;
 }
 #content main .table-data .order table tr td:first-child {
 	display: flex;
@@ -589,6 +592,10 @@ td .delete-btn{
   }
   td .edit-btn:hover{
 	cursor: pointer;
+  }
+  td #view{
+    color: #a342b5;
+    text-decoration: none;
   }
 
 
