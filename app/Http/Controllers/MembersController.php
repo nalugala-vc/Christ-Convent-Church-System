@@ -16,6 +16,11 @@ class MembersController extends Controller
         ]);
     }
 
+    public function getMembersNames(){
+        $members =  Members::pluck('name')->toArray();
+        return response()->json($members);
+    }
+
     public function memberDetails($member){
         $member = Member::findOrFail($member);
         return view('members.viewMembersDetails',[
