@@ -10,37 +10,35 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone No</th>
-                            <th>Date Of Birth</th>
+                            <th>Spouse Name</th>
                             <th>View Details</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($children as $child)
                         <tr>
                             <td>
-                            @if ($child->profile_picture)
-                                <img src="/assets/{{$child->profile_picture}}" alt="{{ $child->name }}" />
+                            @if ($member->profile_picture)
+                                <img src="/assets/{{$member->profile_picture}}" alt="{{ $member->name }}" />
                             @else
-                                <img src="/assets/trans-logo.png" alt="{{ $child->name }}" />
+                                <img src="/assets/trans-logo.png" alt="{{ $member->name }}" />
                             @endif
-                                <p>{{$child->name}}</p>
+                                <p>{{$member->name}}</p>
                             </td>
-                            <td>{{ $child->email ? $child->email : 'null' }}</td>
-                            <td>{{$child->phone_number ? : 'null'}}</td>
-                            <td>{{$child->DOB}}</td>
-                            <td><a href="{{ route('childDetails', ['id' => $child->id]) }}" id="view">view details</a></td>
-                            <td><button class="edit-btn"><a href="{{ route('editChild', ['id' => $child->id]) }}">Edit</a></button></td>
+                            <td>{{ $member->email ? $member->email : 'null' }}</td>
+                            <td>{{$member->phone_number ? : 'null'}}</td>
+                            <td>{{$member->spouse_name}}</td>
+                            <td><a href="{{ route('memberDetails', ['id' => $member->id]) }}" id="view">view details</a></td>
+                            <td><button class="edit-btn"><a href="{{ route('editMember', ['id' => $member->id]) }}">Edit</a></button></td>
                             <td>
-                                <form action="{{ route('deleteChild', ['id' => $child->id]) }}" method="POST">
+                                <form action="{{ route('deleteMember', ['id' => $member->id]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="delete-btn">Delete</button>
                                 </form>
                             </td>
                         </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>

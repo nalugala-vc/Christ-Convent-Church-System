@@ -52,7 +52,7 @@
                 class="form-control @error('father_name') is-invalid @enderror" 
                 name="father_name" 
                 data-autocomplete-url="{{ route('getMembersNames') }}"
-                value="{{ $child->father->name }}" 
+                value="{{ $child->father ? $child->father->name : '' }}" 
                 autocomplete="father_name" placeholder="Father's Name">
                 <ul id="member-suggestions"></ul>
 
@@ -69,7 +69,7 @@
                     id="mother_name" 
                     type="text" 
                     class="form-control @error('mother_name') is-invalid @enderror" name="mother_name" 
-                    value="{{ $child->mother->name }}"
+                    value="{{ $child->mother ? $child->mother->name : '' }}"
                     autocomplete="mother_name" 
                     data-autocomplete-url="{{ route('getMembersNames') }}"
                     placeholder="Mother's Name">

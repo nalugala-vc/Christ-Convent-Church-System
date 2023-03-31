@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <script src="https://kit.fontawesome.com/e54abc54b9.js" crossorigin="anonymous"></script>
     <!----======== CSS ======== -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -14,35 +14,25 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
-  $( function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    $( "#tags" ).autocomplete({
-      source: availableTags
-    });
-  } );
+ 
+    var availableTags = [];
+    $.ajax({
+        method: "GET",
+        url: "/search",
+        data:"",
+        dataType:"",
+        success: function(response){
+            console.log(response);
+            startAutoComplete(response);
+        }
+    })
+
+    function startAutoComplete(availableTags){
+            $( "#search_members" ).autocomplete({
+            source: availableTags
+        });
+    }
+    
   </script>
 
     <!--<title>Admin Dashboard Panel</title>--> 
@@ -73,29 +63,25 @@
 
         <div class="menu-items">
             <ul class="nav-links">
-                <li><a href="#">
+                <li><a href="/" id="active">
                     <i class="uil uil-estate"></i>
-                    <span class="link-name">Dahsboard</span>
+                    <span class="link-name">Dashboard</span>
                 </a></li>
-                <li><a href="#">
+                <li><a href="{{ route('members') }}">
                     <i class="uil uil-files-landscapes"></i>
-                    <span class="link-name">Content</span>
+                    <span class="link-name">All Members</span>
                 </a></li>
-                <li><a href="#">
+                <li><a href="{{ route('children') }}">
                     <i class="uil uil-chart"></i>
-                    <span class="link-name">Analytics</span>
+                    <span class="link-name">All Children</span>
                 </a></li>
-                <li><a href="#">
-                    <i class="uil uil-thumbs-up"></i>
-                    <span class="link-name">Like</span>
+                <li><a href="{{ route('registerMember') }}">
+                    <i class="uil uil-user-plus"></i>
+                    <span class="link-name">Add Member</span>
                 </a></li>
-                <li><a href="#">
-                    <i class="uil uil-comments"></i>
-                    <span class="link-name">Comment</span>
-                </a></li>
-                <li><a href="#">
-                    <i class="uil uil-share"></i>
-                    <span class="link-name">Share</span>
+                <li><a href="{{ route('registerChild') }}">
+                    <i class="uil uil-plus"></i>
+                    <span class="link-name">Add Child</span>
                 </a></li>
             </ul>
             
@@ -120,16 +106,23 @@
     </nav>
 
     <section class="dashboard">
+        <form action="{{ route('searchMembers') }}" method="POST">
+        @csrf
+        
         <div class="top">
             <i class="uil uil-bars sidebar-toggle"></i>
-
             <div class="search-box">
-                <i class="uil uil-search"></i>
-                <input type="text" placeholder="Search here...">
+                <select name="type_search" id="type_search">
+                    <option value="members">Members</option>
+                    <option value="children">Children</option>
+                </select>
+                <button type="submit"><i class="uil uil-search"></i></button>
+                <input type="search" id="search_members" placeholder="Search here..." name="members_name">
             </div>
             
             <!--<img src="images/profile.jpg" alt="">-->
         </div>
+        </form>
 
         <div class="dash-content">
             @yield('content')

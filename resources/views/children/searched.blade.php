@@ -17,7 +17,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($children as $child)
                         <tr>
                             <td>
                             @if ($child->profile_picture)
@@ -40,7 +39,6 @@
                                 </form>
                             </td>
                         </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>

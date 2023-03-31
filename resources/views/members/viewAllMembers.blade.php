@@ -30,7 +30,7 @@
                             <td>{{ $member->email ? $member->email : 'null' }}</td>
                             <td>{{$member->phone_number ? : 'null'}}</td>
                             <td>{{$member->spouse_name}}</td>
-                            <td><a href="" id="view">view details</a></td>
+                            <td><a href="{{ route('memberDetails', ['id' => $member->id]) }}" id="view">view details</a></td>
                             <td><button class="edit-btn"><a href="{{ route('editMember', ['id' => $member->id]) }}">Edit</a></button></td>
                             <td>
                                 <form action="{{ route('deleteMember', ['id' => $member->id]) }}" method="POST">

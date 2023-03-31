@@ -18,8 +18,18 @@ class ChildrenController extends Controller
 
     public function childDetails($child){
         $child = Children::findOrFail($child);
-
+        $birthday = \Carbon\Carbon::parse($child->DOB);
+        $age = $birthday->diffInYears(\Carbon\Carbon::now());
         return view('children.viewChildsDetails',[
+            'child'=>$child,
+            'age'=>$age,
+        ]);
+    }
+
+    public function searchedChild($child){
+        $child = Children::findOrFail($child);
+
+        return view('children.searched',[
             'child'=>$child,
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Children;
 use App\Models\Members;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,13 +18,61 @@ class MembersController extends Controller
         ]);
     }
 
+    public function search (){
+        $members = Members::all();
+        $children = Children::all();
+
+        $membersArray = $members->pluck('name','id')->toArray();
+        $childrenArray = $children->pluck('name', 'id')->toArray();
+
+        $mergedArray = array_merge($membersArray, $childrenArray);
+
+        return $mergedArray;
+    }
+
+    public function searchMembers(){
+        $memberName = request()->members_name;
+        $type_search = request()->type_search;
+
+        if(!$memberName!==null){
+            if($type_search === "members"){
+                $member = Members::where('name', 'LIKE', '%' . $memberName . '%')->first();
+                if($member){
+                    return redirect('/searchedMember/'.$member->id);
+                }else{
+                    return redirect()->back()->with('error','Member not found in our records');
+                }
+            }
+
+            if($type_search === "children"){
+                $child = Children::where('name', 'LIKE', '%' . $memberName . '%')->first();
+                if($child){
+                    return redirect('/searchedChild/'.$child->id);
+                }else{
+                    return redirect()->back()->with('error','Child not found in our records');
+                }
+            }
+            
+        }else{
+            return redirect()->back();
+        }
+    }
+
+    public function searchedMember($member){
+        $member = Members::findOrFail($member);
+
+        return view('members.searched',[
+            'member' => $member
+        ]);
+    }
+
     public function getMembersNames(){
         $members =  Members::pluck('name')->toArray();
         return response()->json($members);
     }
 
     public function memberDetails($member){
-        $member = Member::findOrFail($member);
+        $member = Members::findOrFail($member);
         return view('members.viewMembersDetails',[
             'member'=>$member
         ]);
@@ -105,8 +154,12 @@ class MembersController extends Controller
     public function deleteMember($member){
         $member =Members::findOrFail($member);
 
-        $member->delete();
+        try {
+            $member->delete();
 
-        return redirect()->route('members')->with('success','Member updated  successfully');
+            return redirect()->route('members')->with('success','Member updated  successfully');
+        } catch (\Throwable $th) {
+            return redirect()->route('members')->with('error','An error occurred while deleting member');
+        }
     }
 }

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\MembersController;
+use App\Models\Children;
+use App\Models\Members;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +17,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*MIXED ROUTES*/
+
 Route::get('/', function () {
-    return view('children.registerChildren');
+    $members = Members::latest()->take(5)->get();
+    $memberCount = Members::all()->count();
+    $childrenCount = Children::all()->count();
+    return view('users.userDashboard',[
+        'members' => $members,
+        'memberCount' => $memberCount,
+        'childrenCount' => $childrenCount
+    ]);
 });
+Route::get('/search', [MembersController::class,'search'])->name('search');
+Route::post('/search-members', [MembersController::class,'searchMembers'])->name('searchMembers');
 
 /*MEMBERS ROUTES*/
 Route::get('/members', [MembersController::class,'index'])->name('members');
@@ -28,6 +41,7 @@ Route::post('/addMember', [MembersController::class,'addMember'])->name('addMemb
 Route::get('/editMember/{id}', [MembersController::class,'editMember'])->name('editMember');
 Route::put('/updateMember/{id}', [MembersController::class,'updateMember'])->name('updateMember');
 Route::delete('/deleteMember/{id}',[MembersController::class,'deleteMember'])->name('deleteMember');
+Route::get('/searchedMember/{id}', [MembersController::class,'searchedMember'])->name('searchedMember');
 
 /*CHILDREN ROUTES*/
 Route::get('/children', [ChildrenController::class,'index'])->name('children');
@@ -37,3 +51,4 @@ Route::post('/addChild', [ChildrenController::class,'addChild'])->name('addChild
 Route::get('/editChild/{id}', [ChildrenController::class,'editChild'])->name('editChild');
 Route::put('/updateChild/{id}', [ChildrenController::class,'updateChild'])->name('updateChild');
 Route::delete('/deleteChild/{id}',[ChildrenController::class,'deleteChild'])->name('deleteChild');
+Route::get('/searchedChild/{id}', [ChildrenController::class,'searchedChild'])->name('searchedChild');
