@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MembersController;
 use App\Models\Children;
 use App\Models\Members;
@@ -16,19 +17,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [MembersController::class, 'Login'])->name('adminLogin');
+
+/*ADMIN ROUTES*/
+Route::get('/registerAdmin',[MembersController::class,'registerAdmin'])->name('registerAdmin');
+Route::post('/addAdmin', [MembersController::class,'addAdmin'])->name('addAdmin');
 
 /*MIXED ROUTES*/
-
-Route::get('/', function () {
-    $members = Members::latest()->take(5)->get();
-    $memberCount = Members::all()->count();
-    $childrenCount = Children::all()->count();
-    return view('users.userDashboard',[
-        'members' => $members,
-        'memberCount' => $memberCount,
-        'childrenCount' => $childrenCount
-    ]);
-});
 Route::get('/search', [MembersController::class,'search'])->name('search');
 Route::post('/search-members', [MembersController::class,'searchMembers'])->name('searchMembers');
 

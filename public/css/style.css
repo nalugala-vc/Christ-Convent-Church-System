@@ -373,6 +373,12 @@ nav.close ~ .dashboard .top{
     font-weight: 500;
     color: #fff
 }
+.img-div{
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+}
 .boxes .box.box1{
     background-image: linear-gradient(to right,
     #6557cf,
@@ -806,6 +812,47 @@ td .delete-btn{
     color: #6557cf;
     margin-right: 10px;
     font-size: 18px;
+  }
+  .div{
+    display: none;
+    justify-content: center;
+    position: relative;
+  }
+  .confirm-popup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 50vh;
+    position: absolute;
+    margin-top: 50px;
+    background-color: var(--panel-color);
+    box-shadow: 0px 0px 5px var(--box-shadow);
+  }
+  .confirm-popup img{
+    height: 10rem;
+  }
+  .confirm-popup h2{
+    color: var(--text-color);
+    padding: 20px;
+    text-align: center;
+  }
+  .confirm-popup .button-div{
+    margin-top: 30px;
+    display: flex;
+  }
+  #edit-btn{
+    padding: 10px 35px;
+    background-color: #6557cf;
+    color: white;
+	border: none;
+    margin-right: 30px;
+  }
+  #delete-btn{
+    padding: 10px 35px;
+    background-color: red;
+    color: white;
+	border: none;
   }
   .info{
     display: flex;

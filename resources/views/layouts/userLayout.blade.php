@@ -63,7 +63,7 @@
 
         <div class="menu-items">
             <ul class="nav-links">
-                <li><a href="/" id="active">
+                <li><a href="/home" id="active">
                     <i class="uil uil-estate"></i>
                     <span class="link-name">Dashboard</span>
                 </a></li>
@@ -83,13 +83,28 @@
                     <i class="uil uil-plus"></i>
                     <span class="link-name">Add Child</span>
                 </a></li>
+                <li><a href="{{ route('registerAdmin') }}">
+                    <i class="uil uil-lock-access"></i>
+                    <span class="link-name">Add Admin</span>
+                </a></li>
             </ul>
             
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
             <ul class="logout-mode">
-                <li><a href="#">
-                    <i class="uil uil-signout"></i>
-                    <span class="link-name">Logout</span>
+                <li><a href="">
+                    <i class="uil uil-user-check"></i>
+                    <span class="link-name">{{ Auth::user()->name }}</span>
                 </a></li>
+                <li><a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a>
+                </li>
 
                 <li class="mode">
                     <a href="#">

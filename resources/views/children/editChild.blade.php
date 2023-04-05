@@ -29,24 +29,6 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <input 
-                    id="email" 
-                    type="email" 
-                    class="form-control @error('email') is-invalid @enderror" 
-                    name="email" 
-                    value="{{ $child->email }}"
-                    autocomplete="email" 
-                    placeholder="Email">
-
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <input 
                 id="father_name" 
                 type="text" 
                 class="form-control @error('father_name') is-invalid @enderror" 

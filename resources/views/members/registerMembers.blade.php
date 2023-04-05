@@ -61,7 +61,7 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
-                <input id="spouse_name" type="text" class="form-control @error('spouse_name') is-invalid @enderror" spouse_name="spouse_name" value="{{ old('spouse_name') }}" required autocomplete="spouse_name" placeholder="Spouse Name">
+                <input id="spouse_name" type="text" class="form-control @error('spouse_name') is-invalid @enderror" name="spouse_name" value="{{ old('spouse_name') }}" required autocomplete="spouse_name" placeholder="Spouse Name">
 
                 @error('spouse_name')
                     <span class="invalid-feedback" role="alert">

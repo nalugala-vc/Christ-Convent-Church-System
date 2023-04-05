@@ -122,6 +122,9 @@ class ChildrenController extends Controller
             'name' => 'required',
             'DOB' => 'required',
         ]);
+        $father_id=null;
+        $mother_id = null;
+        $guardian_id = null;
 
         if(request()->father_name){
             $father_name = request()->father_name;
@@ -173,9 +176,23 @@ class ChildrenController extends Controller
     public function deleteChild($child){
         $child = Children::findOrFail($child);
 
-        $child->delete();
+       try {
+            $child->delete();
 
-        return redirect()->route('children')->with('success','Child deleted successfully');
+            return response()->json([ 
+                'redirect' => '/children',        
+                'message' => 'Child deleted successfully',
+                'status' => 'success'
+            ]);
+       } catch (\Throwable $th) {
+            return response()->json([ 
+                'redirect' => '/children',        
+                'message' => 'An error occurred while deleting',
+                'status' => 'error',
+            ]);
+       }
+
+        
     }
 }
 

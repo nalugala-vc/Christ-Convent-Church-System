@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Children;
 use App\Models\Members;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Mime\Email;
 
 class MembersController extends Controller
@@ -16,6 +18,35 @@ class MembersController extends Controller
         return view('members.viewAllMembers',[
             'members'=>$members
         ]);
+    }
+    public function Login(){
+        return view('auth.login');
+    }
+
+    public function registerAdmin(){
+        return view('users.register');
+    }
+
+    public function addAdmin(){
+        $users = User::all()->count();
+
+        if($users>7){
+            return redirect()->back()->with('error','Admin members cannot be more than 7 members');
+        }
+
+        request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => ['required','confirmed'],
+        ]);
+
+        User::create([
+            'name' => request()->name,
+            'email' => request()->email,
+            'password' => Hash::make(request()->password),
+        ]);
+
+        return redirect()->back()->with('success','Admin added successfully');
     }
 
     public function search (){
@@ -155,11 +186,39 @@ class MembersController extends Controller
         $member =Members::findOrFail($member);
 
         try {
+
+            // Update children with this member as mother, father or guardian
+            $mother = Children::where('mother_id', $member->id)->get();
+            $father = Children::where('father_id', $member->id)->get();
+            $guardian = Children::where('guardian_id', $member->id)->get();
+
+            foreach($mother as $child) {
+                $child->update(['mother_id' => null]);
+            }
+
+            foreach($father as $child) {
+                $child->update(['father_id' => null]);
+            }
+
+            foreach($guardian as $child) {
+                $child->update(['guardian_id' => null]);
+            }
+            
             $member->delete();
 
-            return redirect()->route('members')->with('success','Member updated  successfully');
+            return response()->json([ 
+                'redirect' => '/members',        
+                'message' => 'Member deleted successfully',
+                'status' => 'success'
+            ]);
+            
         } catch (\Throwable $th) {
-            return redirect()->route('members')->with('error','An error occurred while deleting member');
+            DB::rollback();
+            return response()->json([ 
+                'redirect' => '/members',        
+                'message' => 'An error occurred while deleting',
+                'status' => 'error',
+            ]);
         }
     }
 }
